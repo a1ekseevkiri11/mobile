@@ -1,16 +1,22 @@
 # calculator
+![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+<p align="center" >
+  <img width="200" src="https://github.com/user-attachments/assets/60202161-888b-43e8-90dc-f299b6951c43")
+</p>
 
-A new Flutter project.
+A mobile calculator application written in dart using the flutter framework.
 
-## Getting Started
+<hr>
 
-This project is a starting point for a Flutter application.
+#### Installation
+```
+flutter pub get
+```
+#### Usage
+```
+flutter run
+```
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
