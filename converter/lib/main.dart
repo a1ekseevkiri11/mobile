@@ -16,14 +16,18 @@ class MyApp extends StatelessWidget {
       title: 'converter',
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 242, 255, 0)
-        ),
-
+          backgroundColor: Color.fromARGB(255, 242, 255, 0),
+          titleTextStyle: TextStyle(
+              fontWeight: FontWeight.w900, // Устанавливаем толщину шрифта
+              fontSize: 30, // Размер шрифта
+              color: Color.fromARGB(255, 0, 0, 0), // Цвет текста
+            ),
+          ),
         dividerColor: Colors.white24,
         listTileTheme: const ListTileThemeData(
           iconColor: Colors.white,
         ),
-        scaffoldBackgroundColor: const Color.fromARGB(255, 139, 139, 139),
+        scaffoldBackgroundColor: const Color.fromARGB(255, 42, 42, 42),
         primarySwatch: Colors.pink,
         textTheme: const TextTheme(
           bodyMedium: TextStyle(
@@ -32,6 +36,7 @@ class MyApp extends StatelessWidget {
             fontSize: 20,
           ),
         ),
+        
       ),
 
       initialRoute: '/home',

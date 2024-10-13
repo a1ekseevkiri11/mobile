@@ -31,9 +31,9 @@ final List<Value> VALUE_ARRAY = [
     valueName: 'Temperature', 
     icon: 'img/temperature.png',
     valuesMap: {
-      'C': 1,   
-      'F': 2,   
-      'K': 3,
+      'C': 0,   
+      'F': 0,   
+      'K': 0,
     },
     supportKey: 'C',
   ),
@@ -53,9 +53,9 @@ final List<Value> VALUE_ARRAY = [
     valueName: 'Currency', 
     icon: 'img/currency.png',
     valuesMap: {
-      'USD': 1,
-      'EUR': 0.85,
-      'RUB': 75.0,
+      'RUB': 1,
+      'USD': 95,
+      'EUR': 100,
     },
     supportKey: 'USD',
   ),
@@ -70,7 +70,7 @@ class ValueListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Screen'),
+        title: const Text('Converter'),
       ),
       body: ListView.separated(
         itemCount: VALUE_ARRAY.length,

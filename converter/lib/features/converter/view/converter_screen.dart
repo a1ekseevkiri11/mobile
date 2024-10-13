@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:converter/features/converter_list/widgets/value_tile.dart';
 
 class ConverterScreen extends StatefulWidget {
@@ -30,7 +29,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
 
   void _swapValue() {
     setState(() {
-      String? temp = _fromValue;
+      String temp = _fromValue;
       _fromValue = _toValue;
       _toValue = temp;
     });
@@ -42,13 +41,14 @@ class _ConverterScreenState extends State<ConverterScreen> {
 
     if (inputNumber == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        (content: const Text('Please enter a valid number')) as SnackBar,
+        const SnackBar(content: Text('Please enter a valid number')),
       );
       return;
     }
 
     setState(() {
       _result = value!.convertation(
+        valueName: value?.valueName,
         key1: _fromValue,
         val1: inputNumber,
         key2: _toValue,
@@ -61,6 +61,23 @@ class _ConverterScreenState extends State<ConverterScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(value?.valueName ?? '...'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Image.asset(
+              color: Colors.black,
+              value!.icon,
+              height: 35,
+              width: 35,
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -68,6 +85,7 @@ class _ConverterScreenState extends State<ConverterScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              style: Theme.of(context).textTheme.bodyMedium,
               controller: _inputController,
               keyboardType: TextInputType.number,
               decoration: const InputDecoration(
@@ -79,33 +97,36 @@ class _ConverterScreenState extends State<ConverterScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                DropdownButton<String>(
-                  value: _fromValue,
-                  items: value!.valuesMap.keys.map((String currency) {
-                    return DropdownMenuItem<String>(
+                DropdownMenu<String>(
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                  initialSelection: _fromValue,
+                  dropdownMenuEntries: value!.valuesMap.keys.map((String currency) {
+                    return DropdownMenuEntry<String>(
                       value: currency,
-                      child: Text(currency),
+                      label: currency,
                     );
                   }).toList(),
-                  onChanged: (String? newValue) {
+                  onSelected: (String? newValue) {
                     setState(() {
                       _fromValue = newValue!;
                     });
                   },
                 ),
                 IconButton(
+                  color: Colors.white,
                   icon: const Icon(Icons.swap_horiz),
                   onPressed: _swapValue,
                 ),
-                DropdownButton<String>(
-                  value: _toValue,
-                  items: value!.valuesMap.keys.map((String currency) {
-                    return DropdownMenuItem<String>(
+                DropdownMenu<String>(
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
+                  initialSelection: _toValue,
+                  dropdownMenuEntries: value!.valuesMap.keys.map((String currency) {
+                    return DropdownMenuEntry<String>(
                       value: currency,
-                      child: Text(currency),
+                      label: currency,
                     );
                   }).toList(),
-                  onChanged: (String? newValue) {
+                  onSelected: (String? newValue) {
                     setState(() {
                       _toValue = newValue!;
                     });
@@ -116,12 +137,15 @@ class _ConverterScreenState extends State<ConverterScreen> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _convert,
-              child: const Text('Convert'),
+              child: const Text(
+                'Convert',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
             const SizedBox(height: 16),
             Text(
               'Result: $_result $_toValue',
-              style: const TextStyle(fontSize: 24),
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],
         ),
@@ -129,131 +153,3 @@ class _ConverterScreenState extends State<ConverterScreen> {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-
-// class LengthScreen extends StatefulWidget {
-//   @override
-//   _LengthScreenState createState() => _LengthScreenState();
-// }
-
-// class _LengthScreenState extends State<LengthScreen> {
-//   // Контроллер для ввода значения
-//   TextEditingController _inputController = TextEditingController();
-
-//   // Доступные единицы измерения
-//   String _fromUnit = 'Centimeters';
-//   String _toUnit = 'Meters';
-
-//   // Результат конвертации
-//   double? _result;
-
-//   // Метод для смены единиц местами
-//   void _swapUnits() {
-//     setState(() {
-//       String temp = _fromUnit;
-//       _fromUnit = _toUnit;
-//       _toUnit = temp;
-//     });
-//   }
-
-//   // Метод для конвертации
-//   void _convert() {
-//     String inputText = _inputController.text;
-//     double? inputNumber = double.tryParse(inputText);
-
-//     if (inputNumber == null) {
-//       // Обработка ошибок при некорректном вводе
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(content: Text('Please enter a valid number')),
-//       );
-//       return;
-//     }
-
-//     setState(() {
-//       if (_fromUnit == 'Centimeters' && _toUnit == 'Meters') {
-//         _result = inputNumber / 100;
-//       } else if (_fromUnit == 'Meters' && _toUnit == 'Centimeters') {
-//         _result = inputNumber * 100;
-//       } else {
-//         // Здесь можно добавить другие конверсии по необходимости
-//         _result = inputNumber; // если единицы одинаковы
-//       }
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Length Converter'),
-//         backgroundColor: Colors.blue,
-//       ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             TextField(
-//               controller: _inputController,
-//               keyboardType: TextInputType.number,
-//               decoration: InputDecoration(
-//                 labelText: 'Enter value',
-//                 border: OutlineInputBorder(),
-//               ),
-//             ),
-//             SizedBox(height: 16),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 DropdownButton<String>(
-//                   value: _fromUnit,
-//                   items: ['Centimeters', 'Meters']
-//                       .map((String unit) => DropdownMenuItem<String>(
-//                             child: Text(unit),
-//                             value: unit,
-//                           ))
-//                       .toList(),
-//                   onChanged: (String? newValue) {
-//                     setState(() {
-//                       _fromUnit = newValue!;
-//                     });
-//                   },
-//                 ),
-//                 IconButton(
-//                   icon: Icon(Icons.swap_horiz),
-//                   onPressed: _swapUnits,
-//                 ),
-//                 DropdownButton<String>(
-//                   value: _toUnit,
-//                   items: ['Centimeters', 'Meters']
-//                       .map((String unit) => DropdownMenuItem<String>(
-//                             child: Text(unit),
-//                             value: unit,
-//                           ))
-//                       .toList(),
-//                   onChanged: (String? newValue) {
-//                     setState(() {
-//                       _toUnit = newValue!;
-//                     });
-//                   },
-//                 ),
-//               ],
-//             ),
-//             SizedBox(height: 16),
-//             ElevatedButton(
-//               onPressed: _convert,
-//               child: Text('Convert'),
-//             ),
-//             SizedBox(height: 16),
-//             if (_result != null)
-//               Text(
-//                 'Result: $_result $_toUnit',
-//                 style: TextStyle(fontSize: 24),
-//               ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

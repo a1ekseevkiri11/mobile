@@ -18,6 +18,7 @@ class Value {
   }
 
   double convertation({
+    required valueName,
     required String key1, 
     required double val1, 
     required String key2, 
@@ -25,12 +26,35 @@ class Value {
     double? multiplier1 = valuesMap[key1];
     double? multiplier2 = valuesMap[key2];
 
+    if (valueName == 'Temperature'){
+      if (key1 == 'C') {
+        if (key2 == 'F') {
+          return (val1 * 9 / 5) + 32;
+        } else if (key2 == 'K') {
+          return val1 + 273.15;
+        }
+      } else if (key1 == 'F') {
+        if (key2 == 'C') {
+          return (val1 - 32) * 5 / 9;
+        } else if (key2 == 'K') {
+          return (val1 - 32) * 5 / 9 + 273.15;
+        }
+      } else if (key1 == 'K') {
+        if (key2 == 'C') {
+          return val1 - 273.15;
+        } else if (key2 == 'F') {
+          return (val1 - 273.15) * 9 / 5 + 32;
+        }
+      }
+      return val1;
+    }
+
     if (multiplier1 == null || multiplier2 == null) {
       throw ArgumentError('Invalid keys provided for conversion');
     }
-
     val1 *= multiplier1;
     return val1 / multiplier2;
+
   }
 }
 
