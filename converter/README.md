@@ -1,16 +1,23 @@
 # converter
+![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
+<p align="center">
+  <kbd>
+    <img height="500" src="https://github.com/user-attachments/assets/4b5c1734-8de4-4205-a167-e111fb726604" style="margin-right: 200px;">
+  </kbd>
+  <kbd>
+    <img height="500" src="https://github.com/user-attachments/assets/5c5b753f-d0d5-4e3d-92c0-51f6ca5289af">
+  </kbd>
+</p>
 
-A new Flutter project.
+Mobile application for conversion.
 
-## Getting Started
+<hr>
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Installation
+```
+flutter pub get
+```
+#### Usage
+```
+flutter run
+```
