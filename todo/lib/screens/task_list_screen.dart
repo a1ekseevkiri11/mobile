@@ -56,7 +56,7 @@ class _TaskListScreenState extends State<TaskListScreen> {
   }
 
   String _getShortDescription(String description) {
-    return description.length > 200 ? '${description.substring(0, 200)}...' : description;
+    return description.length > 40 ? '${description.substring(0, 40)}...' : description;
   }
 
   @override
