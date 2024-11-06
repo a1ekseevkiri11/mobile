@@ -13,6 +13,7 @@
 </p>
 
 Mobile application Weather.
+
 Use API - https://open-meteo.com
 
 <hr>
