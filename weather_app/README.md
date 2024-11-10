@@ -1,16 +1,28 @@
-# weather_app
+# Weather Mobile App
 
-A new Flutter project.
+![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
 
-## Getting Started
+<p align="center">
+  <kbd>
+    <img height="500" src="https://github.com/user-attachments/assets/ac735c67-19cc-4729-9d8d-731027f3bd39" style="margin-right: 200px;">
+  </kbd>
+  <kbd>
+    <img height="500" src="https://github.com/user-attachments/assets/8c7352b8-d435-496c-bdf6-9438785ea009">
+  </kbd>
+ 
+</p>
 
-This project is a starting point for a Flutter application.
+Mobile application Weather.
 
-A few resources to get you started if this is your first Flutter project:
+Use API - https://open-meteo.com
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<hr>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Installation
+```
+flutter pub get
+```
+#### Usage
+```
+flutter run
+```
