@@ -9,6 +9,7 @@ class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.productId});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
 }
 
@@ -44,12 +45,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product Detail'),
+        title: const Text('Продукт'),
         actions: [
           IconButton(
             icon: Icon(
               isFavorite ? Icons.favorite : Icons.favorite_border,
-              color: Colors.red,
+              color: isFavorite ? Colors.red : Colors.white,
             ),
             onPressed: _toggleFavorite,
           ),
@@ -108,8 +109,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 const SizedBox(height: 16.0),
-
-                // Calories information
                 Text(
                   'Калории: ${product.calories} kcal',
                   style: const TextStyle(
@@ -117,16 +116,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                 ),
                 const SizedBox(height: 8.0),
-
                 if (product.ingredients.isNotEmpty)
                   Text(
-                    'Ингридиенты: ${product.ingredients}',
+                    'Ингредиенты: ${product.ingredients}',
                     style: const TextStyle(
                       fontSize: 16,
                     ),
                   ),
                 const SizedBox(height: 16.0),
-
                 if (product.rating != null)
                   Row(
                     children: [
@@ -138,8 +135,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ],
                   ),
                 const SizedBox(height: 8.0),
-
-                // Stock information
                 if (product.stock != null)
                   Text(
                     'Stock: ${product.stock}',
