@@ -1,67 +1,96 @@
+from datetime import datetime
 from typing import List, Optional
 from fastapi import (
     APIRouter,
     Depends,
     File,
+    Form,
     HTTPException,
+    Query,
     UploadFile,
     status
 )
-from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+from pydantic import BaseModel, ValidationError
 
-from src.product import services as product_services
-from src.product import schemas as product_schemas
+from src.news import services as news_services
+from src.news import schemas as news_schemas
 
-product_router = APIRouter(tags=["Product"], prefix="")
+news_router = APIRouter(tags=["Product"], prefix="")
 
 
-@product_router.post(
-    "/product/",
+class Checker:
+    def __init__(self, model: BaseModel):
+        self.model = model
+
+    def __call__(self, data: str = Form(...)):
+        try:
+            return self.model.model_validate_json(data)
+        except ValidationError as e:
+            raise HTTPException(
+                detail=jsonable_encoder(e.errors()),
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            )
+
+
+@news_router.post(
+    "/news/",
     status_code=status.HTTP_201_CREATED
 )
-async def product_add(
-    product_data: product_schemas.ProductRequest = Depends(),
+async def news_add(
+    news_data: news_schemas.NewsRequest = Depends(Checker(news_schemas.NewsRequest)),
     image:  UploadFile | None = None,
 ):
-    return await product_services.ProductService.add(
-        product_data=product_data,
+    return await news_services.NewsService.add(
+        news_data=news_data,
         image=image,
     )
-        
 
 
-@product_router.get(
-    "/product/",
-    response_model=List[product_schemas.ProductResponse]
-)
-async def product_get_all():
-    return await product_services.ProductService.get_all()
-
-
-@product_router.get(
-    "/product/{product_id}/",
-    response_model=product_schemas.ProductResponse
-)
-async def product_get(
-    product_id: int
+@news_router.get("/news/", response_model=List[news_schemas.NewsResponse])
+async def get_news(
+    start_date: Optional[datetime] = Query(None),
+    end_date: Optional[datetime] = Query(None),
+    tags: Optional[List[str]] = Query(None),
+    order_desc: bool = Query(True),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1),
 ):
-    return await product_services.ProductService.get(id=product_id)
+    return await news_services.NewsService.get_news(
+        start_date=start_date,
+        end_date=end_date,
+        tags=tags,
+        order_desc=order_desc,
+        page=page,
+        page_size=page_size,
+    )
 
 
-@product_router.get(
-    "/product/category/{category_id}/",
-    response_model=list[product_schemas.ProductResponse]
+@news_router.get(
+    "/news/{id}/",
+    response_model=news_schemas.NewsResponse
 )
-async def get_products_by_category(
-    category_id: int
+async def news_get(
+    id: int
 ):
-    return await product_services.ProductService.get_by_category(category_id)
-    
+    return await news_services.NewsService.get(id=id)    
 
 
-@product_router.get(
-    "/category/",
-    response_model=List[product_schemas.CategoryResponse]
+@news_router.post(
+    "/tags/",
+    status_code=status.HTTP_201_CREATED
 )
-async def category_get_all():
-    return await product_services.CategoryService.get_all()
+async def tags_add(
+    tags_data: news_schemas.TagRequest,
+):
+    return await news_services.TagsService.add(
+        tags_data=tags_data,
+    )
+
+
+@news_router.get(
+    "/tags/",
+    response_model=List[news_schemas.TagRequest]
+)
+async def tags_get_all():
+    return await news_services.TagsService.get_all()

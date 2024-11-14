@@ -36,7 +36,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
     });
   }
 
-  Future<List<ProductModel>> _getFavoriteProducts(List<ProductModel> products) async {
+  Future<List<ProductModel>> _getFavoriteProducts(
+      List<ProductModel> products) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<ProductModel> favoriteProducts = [];
 
@@ -72,8 +73,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
               final allCategories = [
                 CategoryModel(id: 0, name: 'без фильтров'),
                 CategoryModel(id: -1, name: 'Избранное')
-              ]
-                ..addAll(snapshot.data!);
+              ]..addAll(snapshot.data!);
 
               return DropdownButton<int>(
                 hint: const Text('без фильтров'),
@@ -81,11 +81,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 onChanged: (value) {
                   setState(() {
                     if (value == -1) {
-                      _showFavoritesOnly = true; 
+                      _showFavoritesOnly = true;
                       _selectedCategoryId = -1;
                     } else if (value == 0) {
-                      _showFavoritesOnly = false; 
-                      _selectedCategoryId = null; 
+                      _showFavoritesOnly = false;
+                      _onCategorySelected(
+                          null); // Обновляем список для всех продуктов
                     } else {
                       _showFavoritesOnly = false;
                       _onCategorySelected(value);
@@ -110,7 +111,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return const Center(child: Text('No products found for this category'));
+                  return const Center(
+                      child: Text('No products found for this category'));
                 }
 
                 final products = snapshot.data!;
@@ -118,12 +120,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   return FutureBuilder<List<ProductModel>>(
                     future: _getFavoriteProducts(products),
                     builder: (context, favSnapshot) {
-                      if (favSnapshot.connectionState == ConnectionState.waiting) {
+                      if (favSnapshot.connectionState ==
+                          ConnectionState.waiting) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (favSnapshot.hasError) {
-                        return Center(child: Text('Error: ${favSnapshot.error}'));
-                      } else if (!favSnapshot.hasData || favSnapshot.data!.isEmpty) {
-                        return const Center(child: Text('No favorite products found'));
+                        return Center(
+                            child: Text('Error: ${favSnapshot.error}'));
+                      } else if (!favSnapshot.hasData ||
+                          favSnapshot.data!.isEmpty) {
+                        return const Center(
+                            child: Text('No favorite products found'));
                       }
 
                       final favoriteProducts = favSnapshot.data!;
@@ -138,7 +144,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ProductDetailScreen(productId: product.id),
+                                  builder: (context) => ProductDetailScreen(
+                                      productId: product.id),
                                 ),
                               );
                             },
@@ -160,7 +167,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductDetailScreen(productId: product.id),
+                            builder: (context) =>
+                                ProductDetailScreen(productId: product.id),
                           ),
                         );
                       },

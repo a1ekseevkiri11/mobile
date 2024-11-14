@@ -1,82 +1,57 @@
-from typing import Optional
-from pydantic import (
-    AnyUrl,
-    BaseModel,
-    EmailStr,
-    Field,
-    HttpUrl,
-    field_validator,
-)
+from pydantic import BaseModel
+from typing import List, Optional
+from datetime import datetime
 
 
-class CategoryRequest(BaseModel):
-    name: str
+class TagRequest(BaseModel):
+    title: str
 
 
-class CategoryResponse(BaseModel):
+class TagResponse(BaseModel):
     id: int
-    name: str
+    title: str
     
     class Config:
         from_attributes = True
 
 
-class Category(BaseModel):
-    id: int
-    name: str  
-
-
-class CategoryCreateDB(BaseModel):
-    name: str
-    
-    
-class CategoryUpdateDB(CategoryCreateDB):
-    id: int
-    
-
-class ProductRequest(BaseModel):
-    name: str
-    description: str
-    calories: int
-    category_id: int
-    ingredients: str
-    
-    
-class ProductResponse(BaseModel):
-    id: int
-    name: str
-    description: str
-    calories: int
-    ingredients: str
-    image_url: Optional[str] = None 
-    category: CategoryResponse
+class TagCreateDB(BaseModel):
+    title: str
     
     class Config:
         from_attributes = True
-    
 
-class Product(BaseModel):
+
+class TagUpdateDB(TagCreateDB):
     id: int
-    name: str
-    description: str
-    calories: int
-    category_id: int
-    ingredients: str
-    image_url: Optional[str] = None
 
 
-class ProductCreateDB(BaseModel):
-    name: str
+class NewsRequest(BaseModel):
+    title: str
     description: str
-    calories: int
-    category_id: int
-    ingredients: str
+    tag_ids: List[int] = []
+
+
+class NewsResponse(BaseModel):
+    id: int
+    title: str
+    description: str
+    date: datetime
     image_url: Optional[str] = None
+    tags: List[TagResponse] = []
+
+    class Config:
+        from_attributes = True
+
+
+class NewsCreateDB(BaseModel):
+    title: str
+    description: str
+    image_url: str
     
     class Config:
-        orm_mode = True
-    
+        from_attributes = True
 
-class ProductUpdateDB(ProductCreateDB):
+
+class NewsUpdateDB(NewsCreateDB):
     id: int
-    

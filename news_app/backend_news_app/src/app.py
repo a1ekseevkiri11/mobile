@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 
 
 from src.settings import settings
-from src.product.routers import product_router
+from src.news.routers import news_router
 
 
 @asynccontextmanager
@@ -21,4 +21,4 @@ app = FastAPI(
 
 app.mount("/static", StaticFiles(directory="static/images"), name="static")
 
-app.include_router(router=product_router, prefix="")
+app.include_router(router=news_router, prefix="")

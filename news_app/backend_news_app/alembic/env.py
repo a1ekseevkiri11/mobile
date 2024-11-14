@@ -21,7 +21,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 from src.models import Base
-from src.product import models
+from src.news import models
 from src.settings import settings
 
 
