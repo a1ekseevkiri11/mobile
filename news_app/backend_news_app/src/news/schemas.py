@@ -47,7 +47,7 @@ class NewsResponse(BaseModel):
 class NewsCreateDB(BaseModel):
     title: str
     description: str
-    image_url: str
+    image_url: Optional[str] = None
     
     class Config:
         from_attributes = True

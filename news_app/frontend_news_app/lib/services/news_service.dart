@@ -24,7 +24,7 @@ class NewsService {
     List<String>? tags,
     bool orderDesc = true,
     int page = 1,
-    int pageSize = 10,
+    int pageSize = 25,
   }) async {
     Map<String, String> queryParams = {
       'order_desc': orderDesc.toString(),
@@ -51,7 +51,9 @@ class NewsService {
       List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
 
       return data.map((json) => NewsModel.fromJson(json)).toList();
-    } else {
+    } else if(response.statusCode == 404){
+      return [];
+    }else {
       throw Exception('Failed to load news');
     }
   }

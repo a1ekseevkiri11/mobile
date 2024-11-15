@@ -18,7 +18,7 @@ class NewsService:
     async def add(
         self,
         news_data: news_schemas.TagRequest,
-        image:  UploadFile | None = None,
+        image:  Optional[UploadFile] = None,
     ) -> None:
         async with async_session_maker() as session:
             image_url = None

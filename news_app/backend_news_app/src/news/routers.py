@@ -39,7 +39,7 @@ class Checker:
 )
 async def news_add(
     news_data: news_schemas.NewsRequest = Depends(Checker(news_schemas.NewsRequest)),
-    image:  UploadFile | None = None,
+    image: Optional[UploadFile] = None,
 ):
     return await news_services.NewsService.add(
         news_data=news_data,

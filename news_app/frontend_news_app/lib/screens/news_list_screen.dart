@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend_news_app/models/news_model.dart';
 import 'package:frontend_news_app/models/tags_model.dart';
 import 'package:frontend_news_app/screens/detail_news.dart';
+import 'package:frontend_news_app/screens/save_news_screen.dart';
 import 'package:frontend_news_app/services/news_service.dart';
 import 'package:frontend_news_app/services/tags_service.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,7 @@ class _NewsScreenState extends State<NewsScreen> {
   List<String> selectedTags = [];
   bool orderDesc = true;
   int page = 1;
-  int pageSize = 10;
+  int pageSize = 25;
 
   List<NewsModel> newsList = [];
   List<TagsModel> tagsList = [];
@@ -175,16 +176,14 @@ class _NewsScreenState extends State<NewsScreen> {
   Widget _buildNewsList() {
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: BouncingScrollPhysics(),
       itemCount: newsList.length,
       itemBuilder: (context, index) {
         var news = newsList[index];
         return ListTile(
           title: Text(news.title),
-          subtitle: Text(news.description),
-          trailing: Text(DateFormat('yyyy-MM-dd').format(news.date)),
+          subtitle: Text(DateFormat('yyyy-MM-dd').format(news.date)),
           onTap: () {
-            // Переход на экран с подробной информацией
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -212,6 +211,17 @@ class _NewsScreenState extends State<NewsScreen> {
               });
             },
           ),
+          IconButton(
+            icon: Icon(Icons.bookmark),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OfflineNewsScreen(),
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: isLoading
@@ -222,7 +232,7 @@ class _NewsScreenState extends State<NewsScreen> {
                 children: [
                   if (filtersVisible) _buildTagsFilter(),
                   SizedBox(height: 16),
-                  _buildNewsList(),
+                  Expanded(child: _buildNewsList()),
                 ],
               ),
             ),
