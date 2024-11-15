@@ -90,7 +90,7 @@ async def tags_add(
 
 @news_router.get(
     "/tags/",
-    response_model=List[news_schemas.TagRequest]
+    response_model=List[news_schemas.TagResponse]
 )
 async def tags_get_all():
     return await news_services.TagsService.get_all()
